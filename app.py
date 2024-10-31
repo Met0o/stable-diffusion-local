@@ -3,13 +3,13 @@ import gradio as gr
 from huggingface_hub import login
 from diffusers import StableDiffusion3Pipeline
 
-login(token="hf_token_here", add_to_git_credential=True)
+login(token="hf_token", add_to_git_credential=True)
 
 pipe = StableDiffusion3Pipeline.from_pretrained(
-    "stabilityai/stable-diffusion-3-medium-diffusers",
-    torch_dtype=torch.float16
+    "stabilityai/stable-diffusion-3.5-large",
+    torch_dtype=torch.float16,
+    device_map="balanced"
 )
-pipe = pipe.to("cuda")
 
 def generate_image(prompt, negative_prompt, num_inference_steps, guidance_scale):
     image = pipe(
